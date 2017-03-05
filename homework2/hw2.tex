@@ -1,0 +1,64 @@
+\documentclass[times]{article}
+
+\usepackage{graphicx}
+\usepackage{placeins}
+\usepackage[none]{hyphenat}
+\usepackage{amsmath}
+\usepackage[us]{datetime}
+\usepackage[explicit]{titlesec}
+\titleformat{\section}{\normalfont}{}{0em}{\textbf{\large Problem  \thesection}\  \normalsize #1}
+\begin{document}
+	\title{CS 5800 Distributed OS - Spring 2017 - Homework 2}
+	\author{Josh Herman \\ Dalton Cole \\ Neil Blood}
+	\date{\formatdate{22}{2}{2017}}
+	\maketitle
+
+	\section{Problem 1}
+
+	\section{Problem 2}
+
+	The program is guaranteed to finish in n steps. This is because, in the worst case, x[n-1] = t. This is true because t is guaranteed to be in the set. In other words: \\
+	Set s = \{\} \\
+	the max size of s will be n. For every x[i] $\not=$ t, append x[i] to s. This will represent all of the elements before t in the list. The max size of the set is n, which is the maximum number of steps to terminate the program.
+
+	\section{Problem 3}
+
+	Safety: When two or more users edit the same document at the same time, their edits are never lost.
+
+	Liveliness: Document will auto-save eventually, saving the data.
+
+	\section{Problem 4}
+
+	\begin{center}
+		\begin{tabular}{ |c|c|c|c|c|c| } 
+			 \hline
+			 State 	& Action 		& c[0] 	& c[1] 	& c[2] 	& c[3] \\ 
+			 \hline
+			 A 		& 				& 0		& 0 	& 2 	& 0 	\\ 
+			 B 		& $P_0$ moves	& 2		& 0 	& 2 	& 0 	\\ 
+			 C 		& $P_0$ moves	& 0		& 0 	& 2 	& 0 	\\ 
+			 \hline
+		\end{tabular}
+	\end{center}
+
+	As can be seen from the above table, states A and C are identical, thus program can cycle with this given input, thus not guaranteeing termination.
+
+	\section{Problem 5}
+
+	\section{Problem 6}
+
+	\begin{center}
+		\begin{tabular}{ |c c c c c| } 
+			\hline
+			2 	& 0	& 1	& 0	& 2	\\ 
+			\hline
+			1 	& 2	& 2	& 2	& 1	\\ 
+			\hline
+			0 	& 0	& 0	& 0	& 0	\\ 
+			\hline
+		\end{tabular}
+	\end{center}
+	
+	
+		
+\end{document}
