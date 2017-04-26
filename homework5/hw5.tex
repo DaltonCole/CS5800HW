@@ -1,0 +1,31 @@
+\documentclass[times]{article}
+
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{placeins}
+\usepackage[none]{hyphenat}
+\usepackage{amsmath}
+\usepackage[us]{datetime}
+\usepackage[explicit]{titlesec}
+\titleformat{\section}{\normalfont}{}{0em}{\textbf{\large Problem  \thesection}\  \normalsize #1}
+\begin{document}
+	\title{CS 5800 Distributed OS - Spring 2017 \\ Homework 5}
+	\author{Josh Herman \\ Dalton Cole \\ Neil Blood}
+	\date{\formatdate{27}{4}{2017}}
+	\maketitle
+
+	% Problem 3
+	\section{Suppose there are k traitors among n generals, calculate the number of messages sent by a lieutenant under the Lamport’s algorithm.}
+		If there are k traitors and n generals, then the message complexity will be bounded by $O(n^{k+1})$ with an exact count of messages sent being:
+
+		\begin{equation*}
+			\sum_{i=1}^{k+1} \frac{(n-1)!}{(n-1-i)!}
+		\end{equation*}
+
+		This is because, for the first row, or stage, $(n-1)$ messages are sent, as seen in question 2. In the second row, $(n-1)*(n-2)$ messages are sent. This pattern continues until the $k^{th} + 1$ row, which is: $(n-1)*(n-2)...(n-(k+1))$. To get total message complexity, we must sum all of these stages, which results in the aforementioned equation.
+	
+
+	
+	
+		
+\end{document}
