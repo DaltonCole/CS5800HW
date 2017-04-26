@@ -31,7 +31,21 @@
 	
 
 	\section{Regarding the Lamport and Melliar-Smith's internal clock synchronization algorithm, using induction, prove that the maximum difference between the averages computed by two non-faulty modes is $\dfrac{3t \delta}{n}$, where $t$ is the number of faulty clocks and $n$ is the total number of clocks in the system. You can assume $t < n-1$.}%Problem 4}
-
+		Base Case: $n=3 \Rightarrow t < 2$\\
+		$i: \dfrac{c+(c-\delta) + (c+ \delta) }{n}=\dfrac{c+(c-\delta) + (c+ \delta) }{3}=c$\\
+		$j: \dfrac{c+(c-\delta) + (c- 2\delta) }{n}=\dfrac{c+(c-\delta) + (c-2 \delta) }{3}=c-\delta$\\
+		$i-j:c-(c-\delta)=\dfrac{3t\delta}{n}$\\
+		$\delta=\dfrac{3\delta}{3}=\delta$\\
+		Assume true for $n=k$\\
+		Prove true for $n=k+1 \Rightarrow t<k+1-1\Rightarrow  t<k $\\
+		For the maximum possible difference in averages $t=k-1$ and the number of good clocks would be 2.\\
+		$i: \dfrac{c+(c-\delta)+t(c+\delta)}{n}=\dfrac{c+(c-\delta)+(k-1)(c+\delta)}{k+1}$\\
+		$j: \dfrac{c+(c-\delta)+t(c-2\delta)}{n}=\dfrac{c+(c-\delta)+(k-1)(c-2\delta)}{k+1}$\\
+		$i-j=\dfrac{c+(c-\delta)+(k-1)(c+\delta)}{k+1}-\dfrac{c+(c-\delta)+(k-1)(c-2\delta)}{k+1}$\\
+		$i-j=\dfrac{(k-1)((c+\delta)-(c-2\delta))}{k+1}=\dfrac{(k-1)3\delta}{k+1}$\\
+		$\dfrac{3t\delta}{n}=\dfrac{3(k-1)\delta}{k+1}$\\
+		$i-j=\dfrac{3t\delta}{n}$\\
+		Therefore by proof by induction the maximum difference is $\dfrac{3t\delta}{n}$, where $t$ is the number of faulty clocks and $n$ is the total number of clocks in the system.
 
 
 	\section{Refer to slide \#5-6 of "lec6.pdf", what is the fairness property? Does the fairness property hold? Why or why not?}%Problem 5}
