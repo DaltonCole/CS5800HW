@@ -8,26 +8,64 @@
 \usepackage[explicit]{titlesec}
 \titleformat{\section}{\normalfont}{}{0em}{\textbf{\large Problem  \thesection}\  \normalsize #1}
 \begin{document}
-	\title{CS 5800 Distributed OS - Spring 2017 - Homework 2}
+	\title{CS 5800 Distributed OS - Spring 2017 \\ Homework 2}
 	\author{Josh Herman \\ Dalton Cole \\ Neil Blood}
-	\date{\formatdate{22}{2}{2017}}
+	\date{\formatdate{23}{2}{2017}}
 	\maketitle
 
-	\section{Problem 1}
+	\section{Suppose there are two GTAs (Alice and Bob) for CS384, each of whom	is responsible for one section. In other words, Alice works as a grader for section 1 ($S_1$), and Bob works as a grader for section 2 ($S_2$). At the end of the semester, final grades will be assigned to students in the class based on their final total points. Assume there are two possible grades $A$ and $B$, and Alice and Bob know the final total points for every student in their own sections (Alice does not know the final total points of students in $S_2$, and vice versa).}
+	
+	 \qquad You can assume that $|S_1| = |S_2| = n$ and $S_1 \cap S_2 = \emptyset $. Let $n = 3, S_1 = \{s_{11}(91); s_{12}(92); s_{13}(80)\} $ and $S_2 = \{s_{21}(81); s_{22}(82); s_{23}(97)\}$, where the value in the parentheses is the final total points for each student. At the end of your protocol, Alice will give $A$ to $s_{11}$, $s_{12}$ and $B$ to $s13$. Similarly, Bob will give $A$ to $s_{23}$ and $B$ to $s_{21}$, $s_{22}$.
+	 
+	 \begin{enumerate}
+	 	\item Design a distributed algorithm that assigns A to the upper half of all students and B to the lower half of all students in the class. Additionally, please make sure to minimize the communication cost of your protocol.\\
+	 	
+	 	With the function $getMedian(A,B)$ Alice and Bob could figure out the overall median with a minimal communication cost and then both Alice and Bob could go through their section's grades and assign A's to those above the overall median and B's to those below the overall median.\\
+	 	\pagebreak
+	 	
+	 	\begin{math}
+		 	getMedian(A,B)\\\{\\
+	 		\texttt{\qquad}subA=A\\
+	 		\texttt{\qquad}subB=B\\
+	 		\texttt{\qquad}while(size(subA)>2)\\
+	 		\texttt{\qquad}\{\\
+	 		\texttt{\qquad\qquad}mA=median(subA)\\	
+	 		\texttt{\qquad\qquad}mB=median(subB)\\	
+	 		\texttt{\qquad\qquad}Alice\ send\ mA\ to\ Bob\\
+	 		\texttt{\qquad\qquad}Bob\ send\ mB\ to\ Alice\\
+	 		\texttt{\qquad\qquad}if\ mA== mB:\\
+	 		\texttt{\qquad\qquad\qquad}return\ median\ is\ mA\\
+	 		\texttt{\qquad\qquad}else\ if\ mA > mB\\
+	 		\texttt{\qquad\qquad\qquad}subA=[subA[0]...mA]\\
+	 		\texttt{\qquad\qquad\qquad}subB=[mB...subB[last]]\\
+	 		\texttt{\qquad\qquad}else\ if\ mA < mB\\
+	 		\texttt{\qquad\qquad\qquad}subA=[mA...subA[last]]\\
+	 		\texttt{\qquad\qquad\qquad}subB=[subB[0]...mB]\\
+	 		\texttt{\qquad}\}\\
+		 	\texttt{\qquad}Alice\ sends\ subA[0]\ and\ subA[1]\ to\ Bob\\
+		 	\texttt{\qquad}Bob\ computes:\ median= \dfrac{\max(subA[0],subB[0])+\min(subA[1],subB[1])}{2}\\
+		 	\texttt{\qquad}Bob\ sends\ median\ to\ Alice\\
+		 	\texttt{\qquad}return\ median\\
+		 \}\\
+	 	\end{math}
+	 	
+	 	
+	 	\item Analyze the complexity of the algorithm in terms of the number of rounds, the size of the message for each round (assume 2 bytes are sufficient to store a final total point), and the local or individual computational costs.
+	 	
+	 	The number of rounds for the algorithm, the while statement, would take $\log(n)$ steps and there would be two messages being sent each round, totaling 4 bytes. At the end of the while loop there would need to be two messages sent by Alice, totaling 4 bytes. So added all together the algorithm would cost $4\log(n)+4$ bytes. The computational cost would be $O(\log(n))$ since that's the number of times the while loop would iterate.
+	 \end{enumerate}
 
-	\section{Problem 2}
+	\section{Define a well-founded set to prove that the program terminates in a bounded number of steps. You can assume that $t$ is indeed the value of one of the elements in the array $X$.}%Problem2
 
-	The program is guaranteed to finish in n steps. This is because, in the worst case, x[n-1] = t. This is true because t is guaranteed to be in the set. In other words: \\
-	Set s = \{\} \\
-	the max size of s will be n. For every x[i] $\not=$ t, append x[i] to s. This will represent all of the elements before t in the list. The max size of the set is n, which is the maximum number of steps to terminate the program.
+	The program is guaranteed to finish in $n$ steps. This is because, in the worst case, $x[n-1] = t$. This is true because t is guaranteed to be in the set. In other words: \\
+	Set $s = \{\}$ \\
+	The max size of $s$ will be $n$. For every $x[i] \ne t$, append $x[i]$ to $s$. This will represent all of the elements before $t$ in the list. The max size of the set is $n$, which is the maximum number of steps to terminate the program.
 
-	\section{Problem 3}
+	\section{Describe the desired safety and liveness properties when we use Google	Drive to share files.}%Problem 3}
 
-	Safety: When two or more users edit the same document at the same time, their edits are never lost.
+	Safety: When two or more users edit the same document at the same time, their edits are never lost. \\ Liveliness: Document will auto-save eventually, saving the data.
 
-	Liveliness: Document will auto-save eventually, saving the data.
-
-	\section{Problem 4}
+	\section{Refer to slide \#19 of "handout4.pdf", prove a different example (from	the one given on slide \# 21) to prove that the program does not guarantee termination.}%Problem 4}
 
 	\begin{center}
 		\begin{tabular}{ |c|c|c|c|c|c| } 
@@ -41,11 +79,40 @@
 		\end{tabular}
 	\end{center}
 
-	As can be seen from the above table, states A and C are identical, thus program can cycle with this given input, thus not guaranteeing termination.
+	As can be seen from the above table, states A and C are identical and the program returned to its initial state, thus the program can cycle with this given input, thus not guaranteeing termination.
 
-	\section{Problem 5}
-
-	\section{Problem 6}
+	\section{Refer to slide \#30 of "handout4.pdf", modify the program in a way that the safety property is still preserved, but the mathematical representation of the invariant is different from the one given on slide \#31. Using induction to prove the safety property holds.}%Problem 5}
+	
+	\begin{math}
+		\textbf{define}\ c1,c2:channel\\
+		\textbf{initially}\ c1=c2=\emptyset\\
+		\{program for \textbf{T}\}\\
+		\textbf{define} t: integer(initially\ t = 6)\\
+		1\qquad\textbf{do}\ t>0\qquad \qquad \quad\ \rightarrow$ send message along $c1; t:=t-1\\
+		2\qquad\quad \  \neg empty(c2)\qquad \rightarrow$ receive message from $c2; t:=t+1\\
+		\texttt{ \qquad}\textbf{od}\\
+		\{program for \textbf{R}\}\\
+		\textbf{define} r: integer(initially\ r = 6)\\
+		3\qquad\textbf{do}\ \neg empty(c1)\qquad \ \ \rightarrow$ receive message from $c1; r:=r+1\\
+		4\qquad\qquad r>0\qquad \qquad \quad \rightarrow$ send message along $c2; r:=r-1\\
+		\texttt{ \qquad}\textbf{od}\\
+	\end{math}
+	Invariant changes to: $I \equiv (t\ge 0) \land (r\ge 0)\land (n1+t+n2+r=12) $\\
+	\pagebreak
+	
+	\noindent Prove by induction that the safety property holds:\\
+	Base Case:\\
+	Initially: $n1=n2=0,t=r=6 \Rightarrow n1+t+n2+r=12$\\
+	Induction Step: assume that $I$ holds in the current state. We need to show that $I$ holds after he execution of every eligible guarded action.
+	\begin{enumerate}
+		\item \textbf{After action 1}: The values of $(t+n1),n2,r$ remain unchanged. Also, since the guard is true when $t>0$ and the action decrements $t$ by 1, the condition $t \ge 0$ holds. Thus, $I$ holds.
+		\item \textbf{After action 2}: The values of $(t+n2),n1,r$ remain unchanged. Also, since the value of $t$ can only be incremented, so $t \ge 0$ holds. Thus, $I$ holds.
+		\item \textbf{After action 3}: The values of $(r+n1),n2,t$ remain unchanged. Also, since the value of $r$ can only be incremented, so $r \ge 0$ holds. Thus, $I$ holds.
+		\item \textbf{After action 4}: The values of $(r+n2),n1,rt$ remain unchanged. Also, since the guard is true when $r>0$ and the action decrements $r$ by 1, the condition $r \ge 0$ holds. Thus, $I$ holds.
+	\end{enumerate}
+	Therefore, with proof by induction the safety property still holds.
+	
+	\section{Show how to use the clock synchronization program (slide \#30 of "handout4.pdf") to sync the clocks given in Figure 1.}%Problem 6}
 
 	\begin{center}
 		\begin{tabular}{ |c c c c c| } 
